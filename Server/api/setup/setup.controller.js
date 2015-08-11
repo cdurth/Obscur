@@ -1,18 +1,27 @@
 'use strict';
 
-var User   = require('../../models/user');
+var User = require('../../models/user');
 
-exports.createDemoUser = function(req, res) {
-  // create a sample user
-	var nick = new User({ 
-		name: 'Admin', 
-		password: 'password',
-		admin: true 
-	});
-	nick.save(function(err) {
-		if (err) throw err;
+var admin = new User({
+	name: 'Admin',
+	password: 'password',
+	admin: true
+});
 
-		console.log('User saved successfully');
-		res.json({ success: true });
+exports.createDemoUser = function (req, res) {
+	User.findOne({
+		name: admin.name
+	}, function (err, user) {
+		if (!user) {
+			// create a sample user
+			admin.save(function (err) {
+				if (err) throw err;
+				console.log('User saved successfully');
+				res.json({ success: true, message: "admin user created"});
+			});
+		} else {
+			console.log('user already exists');
+			res.json({success: false, message: "admin user already exists"});
+		}
 	});
 };

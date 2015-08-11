@@ -12,7 +12,12 @@ module.exports = function (app, config) {
 
   // middleware that protects all routes except the auth
   app.use(function (req, res, next) {
-    if (req.url !== '/api/authenticate') {
+    
+    if (req.url === '/api/setup') {
+      // allow request to unprotected setup route
+      next();
+    }
+    else if (req.url !== '/api/authenticate') {
       // check for token
       var token = req.body.token || req.query.token || req.headers['x-access-token'];
       console.log(token);
@@ -36,7 +41,6 @@ module.exports = function (app, config) {
           success: false,
           message: 'No token provided.'
         });
-
       }
     } else {
       // allow request to unprotected auth route
