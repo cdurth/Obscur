@@ -20,7 +20,7 @@ angular.module('starter', ['ionic','ngCordova'])
   });
 })
 
-.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
+.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, USER_ROLES) {
   $stateProvider
   .state('login', {
     url: '/login',
@@ -61,6 +61,9 @@ angular.module('starter', ['ionic','ngCordova'])
     }
   });
   $urlRouterProvider.otherwise('/main/dash');
+  $ionicConfigProvider.tabs.position("bottom"); //Places them at the bottom for all OS
+  $ionicConfigProvider.tabs.style("standard"); //Makes them all look the same across all OS
+ 
 })
 
 // .run(function($httpBackend){

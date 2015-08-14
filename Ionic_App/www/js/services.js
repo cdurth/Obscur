@@ -20,11 +20,12 @@ angular.module('starter')
   }
 
   function useCredentials(token) {
-    username = token.split('.')[0];
+    var decoded = jwt_decode(token);
+    username = decoded.name;
     isAuthenticated = true;
     authToken = token;
 
-    if (username == 'admin') {
+    if (decoded.admin === true ) {
       role = USER_ROLES.admin
     }
     if (username == 'user') {
