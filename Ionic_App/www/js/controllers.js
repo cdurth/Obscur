@@ -3,8 +3,13 @@ angular.module('starter')
 // .controller('AppCtrl', function() {})
 // .controller('LoginCtrl', function() {})
 // .controller('DashCtrl', function() {});
-  .controller('AppCtrl', function ($scope, $state, $ionicPopup, AuthService, AUTH_EVENTS) {
+  .controller('AppCtrl', function ($scope, $state, $ionicPopup, $ionicPopover, AuthService, AUTH_EVENTS) {
     $scope.username = AuthService.username();
+
+    $scope.logout = function () {
+      AuthService.logout();
+      $state.go('login');
+    };
 
     $scope.$on(AUTH_EVENTS.notAuthorized, function (event) {
       var alertPopup = $ionicPopup.alert({
@@ -25,6 +30,12 @@ angular.module('starter')
     $scope.setCurrentUsername = function (name) {
       $scope.username = name;
     };
+
+    $ionicPopover.fromTemplateUrl('templates/menu.html', {
+      scope: $scope,
+    }).then(function (popover) {
+      $scope.popover = popover;
+    });
   })
 
   .controller('LoginCtrl', function ($scope, $state, $ionicPopup, AuthService) {
@@ -44,10 +55,6 @@ angular.module('starter')
   })
 
   .controller('DashCtrl', function ($scope, $state, $http, $ionicPopup, AuthService) {
-    $scope.logout = function () {
-      AuthService.logout();
-      $state.go('login');
-    };
 
     $scope.performValidRequest = function () {
       $http.get('http://localhost:8100/valid').then(
