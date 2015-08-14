@@ -1,7 +1,7 @@
 angular.module('starter')
 
 .constant('API_SERVER', {
-  url: 'http://localhost:3000/api'
+  url: 'http://33b1f980.ngrok.com/api'
 })
 
 .constant('AUTH_EVENTS', {
